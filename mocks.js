@@ -7,3 +7,12 @@ $.mockjax({
     this.responseText = available;
   }
 });
+
+$.mockjax({
+  url: "/register",
+  dataType: "json",
+  type: "post",
+  response: function(settings) {
+    this.responseText = "true"
+  }
+});

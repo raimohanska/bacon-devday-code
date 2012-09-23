@@ -1,11 +1,14 @@
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="css/register.css">
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/jquery.mockjax.js"></script>
     <script type="text/javascript" src="lib/Bacon.js"></script>
+    <script type="text/javascript" src="lib/Bacon.UI.js"></script>
     <script type="text/javascript" src="mocks.js"></script>
     <script type="text/javascript">
       function show(x) { console.log(x) }
+      function nonEmpty(x) { return x.length > 0 }
 
       function queryAvailability(username) {
         return Bacon.fromPromise($.ajax({
@@ -13,17 +16,46 @@
         }))
       }
 
+      function sendRequest(request) {
+        return Bacon.fromPromise($.ajax({
+          url: "/register",
+          type: "post",
+          data: request
+        }))
+      }
+
       $(function() {
-        var username = $("#username").asEventStream("keyup").map(function() { return $("#username").val() }).toProperty("")
-        var available = username.changes().switch(queryAvailability).toProperty(true)
-        available.not().onValue(function(show) { $("#username-unavailable").toggle(show) })
+        var username = Bacon.UI.textFieldValue($("#username input"))
+        var usernameEntered = username.map(nonEmpty)
+        var usernameChange = username.filter(nonEmpty).changes()
+        var available = usernameChange.switch(queryAvailability).toProperty(true)
+        var availabilityPending = usernameChange.map(true).merge(available.map(false)).toProperty(false)
+
+        availabilityPending.onValue(function(show) { $("#username .ajax").toggle(show) })
+        available.not().and(usernameEntered).onValue(function(show) { $("#username-unavailable").toggle(show) })
+
+        var fullname = Bacon.UI.textFieldValue($("#fullname input"))
+        var fullnameEntered = fullname.map(nonEmpty)
+
+        var allGood = usernameEntered.and(available).and(fullnameEntered).and(availabilityPending.not())
+        allGood.not().onValue(function(bad) { $("#register button").attr("disabled", bad) })
+
+        var requestClick = Bacon.UI.click($("#register button")).do(".preventDefault")
+        var request = Bacon.combineTemplate( { username: username, fullname: fullname } ).sampledBy(requestClick)
+        var result = request.flatMap(sendRequest)
+        var requestPending = request.map(true).merge(result.map(false)).toProperty(false)
+
+        requestPending.onValue(function(pending) { $("#register .ajax").toggle(pending) })
+        result.onValue(function(result) { $("#result").text("Thanks!") })
       })
     </script>
   </head>
   <body>
     <h1>Bacon Registration Form</h1>
     <form>
-      <div><label>username</label><input id="username" type="text"><em id="username-unavailable">Username is unavailable</em></div>
+      <div id="username"><label>username</label><input type="text"><em class="ajax"></em><em id="username-unavailable">Username is unavailable</em></div>
+      <div id="fullname"><label>full name</label><input type="text"></div>
+      <div id="register"><button id="register">Register</button><em class="ajax"></em><span id="result"></span></div>
     </form>
   </body>
 </html>
