@@ -8,45 +8,7 @@
     <script type="text/javascript" src="mocks.js"></script>
     <script type="text/javascript">
       function show(x) { console.log(x) }
-      function nonEmpty(x) { return x.length > 0 }
-
-      function queryAvailability(username) {
-        return {
-          url: "/usernameavailable/" + username
-        }
-      }
-
-      function sendRequest(request) {
-        return {
-          url: "/register",
-          type: "post",
-          data: request
-        }
-      }
-
       $(function() {
-        var username = Bacon.UI.textFieldValue($("#username input"))
-        var usernameEntered = username.map(nonEmpty)
-        var usernameChange = username.filter(nonEmpty).changes()
-        var usernameAvailable = usernameChange.ajax(queryAvailability).toProperty(true)
-        var usernamePending = usernameAvailable.pending(usernameChange)
-
-        usernamePending.assign($("#username .ajax"), "toggle")
-        usernameAvailable.not().and(usernameEntered).and(usernamePending.not()).assign($("#username-unavailable"), "toggle")
-
-        var fullname = Bacon.UI.textFieldValue($("#fullname input"))
-        var fullnameEntered = fullname.map(nonEmpty)
-
-        var requestClick = $("#register button").asEventStream("click").do(".preventDefault")
-        var request = Bacon.combineTemplate( { username: username, fullname: fullname } ).sampledBy(requestClick)
-        var result = request.ajax(sendRequest)
-        var requestPending = result.pending(request)
-
-        var allGood = usernameEntered.and(usernameAvailable).and(fullnameEntered).and(usernamePending.not()).and(requestPending.not())
-        allGood.not().assign($("#register button"), "attr", "disabled")
-
-        requestPending.assign($("#register .ajax"), "toggle")
-        result.onValue(function(result) { $("#result").text("Thanks!") })
       })
     </script>
   </head>
