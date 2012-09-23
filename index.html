@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="lib/Bacon.js"></script>
+    <script type="text/javascript" src="mocks.js"></script>
+    <script type="text/javascript">
+      function show(x) { console.log(x) }
+
+      function queryAvailability(username) {
+        return Bacon.fromPromise($.ajax({
+          url: "/usernameavailable/" + username
+        }))
+      }
+
+      $(function() {
+        var username = $("#username").asEventStream("keyup").map(function() { return $("#username").val() }).toProperty("")
+        var available = username.changes().switch(queryAvailability).toProperty(true)
+        available.not().onValue(function(show) { $("#username-unavailable").toggle(show) })
+      })
+    </script>
+  </head>
+  <body>
+    <h1>Bacon Registration Form</h1>
+    <form>
+      <div><label>username</label><input id="username" type="text"><em id="username-unavailable">Username is unavailable</em></div>
+    </form>
+  </body>
+</html>
