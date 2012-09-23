@@ -31,21 +31,21 @@
         var available = usernameChange.switch(queryAvailability).toProperty(true)
         var availabilityPending = usernameChange.map(true).merge(available.map(false)).toProperty(false)
 
-        availabilityPending.onValue(function(show) { $("#username .ajax").toggle(show) })
-        available.not().and(usernameEntered).onValue(function(show) { $("#username-unavailable").toggle(show) })
+        availabilityPending.assign($("#username .ajax"), "toggle")
+        available.not().and(usernameEntered).assign($("#username-unavailable"), "toggle")
 
         var fullname = Bacon.UI.textFieldValue($("#fullname input"))
         var fullnameEntered = fullname.map(nonEmpty)
 
         var allGood = usernameEntered.and(available).and(fullnameEntered).and(availabilityPending.not())
-        allGood.not().onValue(function(bad) { $("#register button").attr("disabled", bad) })
+        allGood.not().assign($("#register button"), "attr", "disabled")
 
         var requestClick = Bacon.UI.click($("#register button")).do(".preventDefault")
         var request = Bacon.combineTemplate( { username: username, fullname: fullname } ).sampledBy(requestClick)
         var result = request.flatMap(sendRequest)
         var requestPending = request.map(true).merge(result.map(false)).toProperty(false)
 
-        requestPending.onValue(function(pending) { $("#register .ajax").toggle(pending) })
+        requestPending.assign($("#register .ajax"), "toggle")
         result.onValue(function(result) { $("#result").text("Thanks!") })
       })
     </script>
