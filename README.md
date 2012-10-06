@@ -27,6 +27,7 @@ Implement a Registration Form that
 * [HTML page](index.html) with the required form elements
 * Javascript imports for Bacon.js, Bacon.UI.js, jQuery.js
 * Javascript stub embedded in the HTML file
+* Implementation of the username property
 * The required AJAX services are mocked for you using [Mockjax](https://github.com/appendto/jquery-mockjax), so you don't need any background server.
 
 ## Guidelines / intro
@@ -42,16 +43,18 @@ printed to the console.
 
 ## Suggested steps
 
-* Implement username property (tips: $.asEventStream, map)
-* Implement availability query (tips: switch, $.ajax, Bacon.fromPromise)
-* Show unavailability information (tips: not(), assign, "toggle")
+* Disable button when username is empty (tips: usernameMissing property,
+  map, onValue)
+* Disable also if fullname if missing (tips: new properties,
+  Property.or)
+* Implement availability query (tips: map, ajax)
+* Disable button if username unavailable (tips: Property.or,
+  Property.not)
+* Show unavailability information (tips: onValue, "toggle")
 * What happens with empty username? How to fix? (tips: filter)
-* Implement fullname property
+* Show AJAX indicator when AJAX pending (tips: map, merge, toProperty)
+* Disable button when AJAX is pending
 * Implement registerClick stream (tips: preventDefault)
 * Implement registration request stream(tips: combineTemplate, sampledBy)
 * Send POST request to server (tips: switch, $.ajax, type="post")
 * Show registration feedback (tips: onValue, $.text)
-* Disable button when username is not available or either field is empty (tips: and(), assign, "attr", "disabled")
-* Show AJAX indicators when AJAX pending (tips: map, merge, toProperty)
-* Disable button when any AJAX is pending
-* Needs refactoring? Try Bacon.UI
