@@ -26,8 +26,9 @@
           registerAjaxIndicator = $("#register .ajax")
           // streams and properties
           username = Bacon.UI.textFieldValue($("#username input"))
-          usernameAvailable = username.changes().map(function(user) { return { url : "/usernameavailable/" + user } }).ajax()
-          usernameAvailable.not().onValue($("#username-unavailable"), "toggle")
+          usernameAvailable = username.changes().filter(nonEmpty).map(function(user) { return { url : "/usernameavailable/" + user } }).ajax().toProperty()
+          // side-effects
+          usernameAvailable.not().and(username.map(nonEmpty)).onValue($("#username-unavailable"), "toggle")
       })
     </script>
   </head>
