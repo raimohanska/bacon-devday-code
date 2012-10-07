@@ -17,12 +17,17 @@
       }
       $(function() {
           $(".ajax").hide()
+          // fields
           usernameField = $("#username input")
           fullnameField = $("#fullname input")
           registerButton = $("#register button")
           unavailabilityLabel = $("#username-unavailable")
           usernameAjaxIndicator = $("#username .ajax")
           registerAjaxIndicator = $("#register .ajax")
+          // streams and properties
+          username = Bacon.UI.textFieldValue($("#username input"))
+          usernameAvailable = username.changes().map(function(user) { return { url : "/usernameavailable/" + user } }).ajax()
+          usernameAvailable.not().onValue($("#username-unavailable"), "toggle")
       })
     </script>
   </head>
