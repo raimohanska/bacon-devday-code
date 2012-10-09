@@ -47,11 +47,8 @@ printed to the console.
   map, onValue)
 * Disable also if fullname if missing (tips: new properties,
   Property.or)
-* Implement availability query (tips: map, ajax)
 * Disable button if username unavailable (tips: Property.or,
   Property.not)
-* Show unavailability information (tips: onValue, "toggle")
-* What happens with empty username? How to fix? (tips: filter)
 * Show AJAX indicator when AJAX pending (tips: map, merge, toProperty)
 * Disable button when AJAX is pending
 * Implement registerClick stream (tips: preventDefault)
