@@ -140,3 +140,11 @@ body, input, button, h1 {
   right: 81px;
   top: 12px;
 }
+
+#register #result {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 2em;
+  color: #ff0;
+  text-shadow: black 4px 4px 4px;
+}
