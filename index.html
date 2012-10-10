@@ -40,6 +40,13 @@
 
           // registration
           registerClick = registerButton.asEventStream("click").do(".preventDefault")
+          registrationRequest = username.combine(fullname, function(u, f) {
+              return {
+                url : "/register",
+                contentType: "application/json",
+                data: JSON.stringify({ username: u, fullname: f })
+              }
+          }).sampledBy(registerClick)
 
           // button enabled state
           buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
