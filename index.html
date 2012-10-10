@@ -49,10 +49,11 @@
               }
           }).sampledBy(registerClick)
           registrationResponse = registrationRequest.ajax()
+          registrationSent = registrationRequest.map(true).toProperty(false)
 
           // button enabled state
           buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
-            .and(usernameRequestPending.not())
+            .and(usernameRequestPending.not()).and(registrationSent.not())
 
           // side-effects
           buttonEnabled.onValue(setEnabled, registerButton)
