@@ -8,8 +8,20 @@
     <script type="text/javascript" src="mocks.js"></script>
     <script type="text/javascript">
       function show(x) { console.log(x) }
+      function setVisibility(element, visible) {
+        element.toggle(visible)
+      }
+      function setEnabled(element, enabled) {
+        element.attr("disabled", !enabled)
+      }
       $(function() {
           $(".ajax").hide()
+          usernameField = $("#username input")
+          fullnameField = $("#fullname input")
+          registerButton = $("#register button")
+          unavailabilityLabel = $("#username-unavailable")
+          usernameAjax = $("#username .ajax")
+          registerAjax = $("#register .ajax")
       })
     </script>
   </head>
