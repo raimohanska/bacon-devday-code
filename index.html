@@ -24,14 +24,17 @@
           unavailabilityLabel = $("#username-unavailable")
           usernameAjaxIndicator = $("#username .ajax")
           registerAjaxIndicator = $("#register .ajax")
+
           // streams and properties
           username = Bacon.UI.textFieldValue(usernameField)
           usernameRequest = username.changes().filter(nonEmpty)
+            .skipDuplicates().throttle(300)
             .map(function(user) { return { url : "/usernameavailable/" + user } })
-          usernameAvailable = usernameRequest.ajax().toProperty(true)
+          usernameResponse = usernameRequest.ajax()
+          usernameAvailable = usernameResponse.toProperty(true)
+
           // side-effects
-          usernameAvailable.not().and(username.map(nonEmpty))
-            .onValue(unavailabilityLabel, "toggle")
+          usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
       })
     </script>
   </head>
