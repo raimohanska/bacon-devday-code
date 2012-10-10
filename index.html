@@ -42,11 +42,13 @@
           registerClick = registerButton.asEventStream("click").do(".preventDefault")
           registrationRequest = username.combine(fullname, function(u, f) {
               return {
+                type: "post",
                 url : "/register",
                 contentType: "application/json",
                 data: JSON.stringify({ username: u, fullname: f })
               }
           }).sampledBy(registerClick)
+          registrationResponse = registrationRequest.ajax()
 
           // button enabled state
           buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
@@ -56,6 +58,7 @@
           buttonEnabled.onValue(setEnabled, registerButton)
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
           usernameRequestPending.onValue(setVisibility, usernameAjaxIndicator)
+          registrationResponse.map("Thanks dude!").onValue($("#result"), "text")
       })
     </script>
   </head>
