@@ -32,6 +32,7 @@
             .map(function(user) { return { url : "/usernameavailable/" + user } })
           usernameResponse = usernameRequest.ajax()
           usernameAvailable = usernameResponse.toProperty(true)
+          usernameRequestPending = usernameResponse.pending(usernameRequest)
 
           // fullname
           fullname = Bacon.UI.textFieldValue(fullnameField)
@@ -40,6 +41,7 @@
           // side-effects
           usernameEntered.and(fullnameEntered).and(usernameAvailable).onValue(setEnabled, registerButton)
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
+          usernameRequestPending.onValue(setVisibility, usernameAjaxIndicator)
       })
     </script>
   </head>
