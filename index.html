@@ -8,6 +8,7 @@
     <script type="text/javascript" src="mocks.js"></script>
     <script type="text/javascript">
       function show(x) { console.log(x) }
+      function nonEmpty(x) { return x.length > 0 }
       function setVisibility(element, visible) {
         element.toggle(visible)
       }
@@ -20,8 +21,8 @@
           fullnameField = $("#fullname input")
           registerButton = $("#register button")
           unavailabilityLabel = $("#username-unavailable")
-          usernameAjax = $("#username .ajax")
-          registerAjax = $("#register .ajax")
+          usernameAjaxIndicator = $("#username .ajax")
+          registerAjaxIndicator = $("#register .ajax")
       })
     </script>
   </head>
