@@ -16,7 +16,7 @@
         element.attr("disabled", !enabled)
       }
       $(function() {
-          $(".ajax").hide()
+          // fields
           usernameField = $("#username input")
           fullnameField = $("#fullname input")
           registerButton = $("#register button")
@@ -49,6 +49,7 @@
               }
           }).sampledBy(registerClick)
           registrationResponse = registrationRequest.ajax()
+          registrationPending = registrationResponse.pending(registrationRequest)
           registrationSent = registrationRequest.map(true).toProperty(false)
 
           // button enabled state
@@ -59,6 +60,7 @@
           buttonEnabled.onValue(setEnabled, registerButton)
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
           usernameRequestPending.onValue(setVisibility, usernameAjaxIndicator)
+          registrationPending.onValue(setVisibility, registerAjaxIndicator)
           registrationResponse.map("Thanks dude!").onValue($("#result"), "text")
       })
     </script>
