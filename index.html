@@ -14,11 +14,21 @@
     </script>
   </head>
   <body>
-    <h1>Bacon Registration Form</h1>
-    <form>
-      <div id="username"><label>username</label><input type="text"><em class="ajax"></em><em id="username-unavailable">Username is unavailable</em></div>
-      <div id="fullname"><label>full name</label><input type="text"></div>
-      <div id="register"><button id="register">Register</button><em class="ajax"></em><span id="result"></span></div>
+    <form id="login-container">
+      <h1>Bacon Registration Form</h1>
+      <div id="username">
+        <input type="text" placeholder="username">
+        <em class="ajax"></em>
+        <em id="username-unavailable" class="tooltip">Username is unavailable</em>
+      </div>
+      <div id="fullname">
+        <input type="text" placeholder="Full Name">
+      </div>
+      <div id="register">
+        <button id="register">Get some!</button>
+        <em class="ajax"></em>
+        <span id="result"></span>
+      </div>
     </form>
   </body>
 </html>
