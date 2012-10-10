@@ -38,8 +38,12 @@
           fullname = Bacon.UI.textFieldValue(fullnameField)
           fullnameEntered = fullname.map(nonEmpty)
 
+          // button enabled state
+          buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
+            .and(usernameRequestPending.not())
+
           // side-effects
-          usernameEntered.and(fullnameEntered).and(usernameAvailable).onValue(setEnabled, registerButton)
+          buttonEnabled.onValue(setEnabled, registerButton)
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
           usernameRequestPending.onValue(setVisibility, usernameAjaxIndicator)
       })
