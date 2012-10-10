@@ -38,7 +38,7 @@
           fullnameEntered = fullname.map(nonEmpty)
 
           // side-effects
-          usernameEntered.and(fullnameEntered).onValue(setEnabled, registerButton)
+          usernameEntered.and(fullnameEntered).and(usernameAvailable).onValue(setEnabled, registerButton)
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
       })
     </script>
