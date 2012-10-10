@@ -38,6 +38,9 @@
           fullname = Bacon.UI.textFieldValue(fullnameField)
           fullnameEntered = fullname.map(nonEmpty)
 
+          // registration
+          registerClick = registerButton.asEventStream("click").do(".preventDefault")
+
           // button enabled state
           buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
             .and(usernameRequestPending.not())
