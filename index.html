@@ -24,6 +24,7 @@
           usernameAjaxIndicator = $("#username .ajax")
           registerAjaxIndicator = $("#register .ajax")
 
+          // username
           username = Bacon.UI.textFieldValue(usernameField)
           usernameEntered = username.map(nonEmpty)
           usernameRequest = username.changes().filter(nonEmpty).skipDuplicates()
@@ -32,7 +33,12 @@
           usernameResponse = usernameRequest.ajax()
           usernameAvailable = usernameResponse.toProperty(true)
 
-          usernameEntered.onValue(setEnabled, registerButton)
+          // fullname
+          fullname = Bacon.UI.textFieldValue(fullnameField)
+          fullnameEntered = fullname.map(nonEmpty)
+
+          // side-effects
+          usernameEntered.and(fullnameEntered).onValue(setEnabled, registerButton)
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
       })
     </script>
