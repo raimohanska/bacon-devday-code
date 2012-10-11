@@ -1,3 +1,26 @@
+## Preparations
+
+1. Clone this repo
+
+    git clone https://github.com/raimohanska/bacon-devday-code.git
+    cd bacon-devday-code
+
+2. Open the index.html file in your browser
+
+    open index.html
+
+3. Make sure you have developer tools in your browser and that you can
+   use them. Google Chrome will do. In Chrome (Mac OSX), Go to View ->
+Developer -> Developer Tools. You should be able to run Javascript
+expressions on the Console tab.
+
+4. Try some expression in the console, like
+
+    $("#username input").asEventStream("keyup")
+
+5. Have a look at Bacon.js
+   [readme](https://github.com/raimohanska/bacon.js/blob/master/README.md)
+
 ## Steps to success
 
 1. Disable button if username is missing
