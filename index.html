@@ -27,12 +27,12 @@
           // username
           username = Bacon.UI.textFieldValue(usernameField)
           usernameEntered = username.map(nonEmpty)
-          usernameRequest = username.changes().filter(nonEmpty).skipDuplicates()
+          availabilityRequest = username.changes().filter(nonEmpty).skipDuplicates()
             .throttle(300)
             .map(function(user) { return { url : "/usernameavailable/" + user } })
-          usernameResponse = usernameRequest.ajax()
-          usernameAvailable = usernameResponse.toProperty(true)
-          usernameRequestPending = usernameResponse.pending(usernameRequest)
+          availabilityResponse = availabilityRequest.ajax()
+          usernameAvailable = availabilityResponse.toProperty(true)
+          usernameRequestPending = availabilityResponse.pending(availabilityRequest)
 
           // fullname
           fullname = Bacon.UI.textFieldValue(fullnameField)
