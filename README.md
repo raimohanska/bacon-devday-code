@@ -2,24 +2,38 @@
 
 1. Clone this repo
 
+    ~~~
     git clone https://github.com/raimohanska/bacon-devday-code.git
     cd bacon-devday-code
+    ~~~
 
 2. Open the index.html file in your browser
 
+    ~~~
     open index.html
+    ~~~
 
 3. Make sure you have developer tools in your browser and that you can
    use them. Google Chrome will do. In Chrome (Mac OSX), Go to View ->
 Developer -> Developer Tools. You should be able to run Javascript
 expressions on the Console tab.
 
-4. Try some expression in the console, like
+4. Try some expression in the Developer Console, like
 
+    ~~~
     $("#username input").asEventStream("keyup")
+    ~~~
 
 5. Have a look at Bacon.js
    [readme](https://github.com/raimohanska/bacon.js/blob/master/README.md)
+
+## Map
+
+Here's how I modeled the problem for Bacon.js reactive code.
+
+![diagram](https://raw.github.com/raimohanska/bacon-devday-code/master/images/registration-form-bacon.png)
+
+Side-effects are not depicted.
 
 ## Steps to success
 
