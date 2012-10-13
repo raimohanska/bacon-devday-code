@@ -27,11 +27,11 @@
 
           // streams and properties
           username = Bacon.UI.textFieldValue(usernameField)
-          usernameRequest = username.changes().filter(nonEmpty)
+          availabilityRequest = username.changes().filter(nonEmpty)
             .skipDuplicates().throttle(300)
             .map(function(user) { return { url : "/usernameavailable/" + user } })
-          usernameResponse = usernameRequest.ajax()
-          usernameAvailable = usernameResponse.toProperty(true)
+          availabilityResponse = availabilityRequest.ajax()
+          usernameAvailable = availabilityResponse.toProperty(true)
 
           // side-effects
           usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
