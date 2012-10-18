@@ -32,7 +32,7 @@
             .map(function(user) { return { url : "/usernameavailable/" + user } })
           availabilityResponse = availabilityRequest.ajax()
           usernameAvailable = availabilityResponse.toProperty(true)
-          usernameRequestPending = availabilityResponse.pending(availabilityRequest)
+          availabilityPending = availabilityResponse.pending(availabilityRequest)
 
           // fullname
           fullname = Bacon.UI.textFieldValue(fullnameField)
@@ -54,12 +54,12 @@
 
           // button enabled state
           buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
-            .and(usernameRequestPending.not()).and(registrationSent.not())
+            .and(availabilityPending.not()).and(registrationSent.not())
 
           // side-effects
           buttonEnabled.onValue(setEnabled, registerButton)
-          usernameAvailable.not().onValue(setVisibility, unavailabilityLabel)
-          usernameRequestPending.onValue(setVisibility, usernameAjaxIndicator)
+          usernameAvailable.not().and(availabilityPending.not()).onValue(setVisibility, unavailabilityLabel)
+          availabilityPending.onValue(setVisibility, usernameAjaxIndicator)
           registrationPending.onValue(setVisibility, registerAjaxIndicator)
           registrationResponse.map("Thanks dude!").onValue($("#result"), "text")
       })
