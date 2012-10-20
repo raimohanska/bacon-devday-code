@@ -1,3 +1,8 @@
+This is the Bacon.JS coding excercise we did at ReaktorDevDay 2012. 
+Below are the instructions in case you wanna try it yourself. You may also
+have a look at the [Full Solution](https://github.com/raimohanska/bacon-devday-code/tree/full-solution) which
+is in another branch.
+
 ## Preparations
 
 1. Clone this repo
