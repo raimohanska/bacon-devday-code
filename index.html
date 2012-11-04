@@ -22,21 +22,25 @@
           registerAjaxIndicator = $("#register .ajax")
           resultSpan = $("#result")
   
-          var usernameAvailable, checkingAvailability, clicked
+          var usernameAvailable, checkingAvailability, clicked, previousUsername
           var counter = 0
           
           usernameField.keyup(function(event) {
-            showUsernameAjaxIndicator(true)
-            updateButtonState()
-            var id = ++counter
-            $.ajax({ url : "/usernameavailable/" + usernameField.val()}).done(function(available) {
-              if (id == counter) {
-                usernameAvailable = available
-                setVisibility(unavailabilityLabel, !available)
-                showUsernameAjaxIndicator(false)
-                updateButtonState()
-              }
-            })
+            var username = usernameField.val()
+            if (username != previousUsername) {
+              previousUsername = username
+              showUsernameAjaxIndicator(true)
+              updateButtonState()
+              var id = ++counter
+              $.ajax({ url : "/usernameavailable/" + username}).done(function(available) {
+                if (id == counter) {
+                  usernameAvailable = available
+                  setVisibility(unavailabilityLabel, !available)
+                  showUsernameAjaxIndicator(false)
+                  updateButtonState()
+                }
+              })
+            }
           })
 
           fullnameField.keyup(updateButtonState)
