@@ -20,6 +20,53 @@
           unavailabilityLabel = $("#username-unavailable")
           usernameAjaxIndicator = $("#username .ajax")
           registerAjaxIndicator = $("#register .ajax")
+          resultSpan = $("#result")
+  
+          var usernameAvailable, checkingAvailability, clicked
+          
+          usernameField.keyup(function(event) {
+            showUsernameAjaxIndicator(true)
+            updateButtonState()
+            $.ajax({ url : "/usernameavailable/" + usernameField.val()}).done(function(available) {
+              usernameAvailable = available
+              setVisibility(unavailabilityLabel, !available)
+              showUsernameAjaxIndicator(false)
+              updateButtonState()
+            })
+          })
+
+          fullnameField.keyup(updateButtonState)
+
+          registerButton.click(function(event) {
+            event.preventDefault()
+            clicked = true
+            setVisibility(registerAjaxIndicator, true)
+            updateButtonState()
+            var data = { username: usernameField.val(), fullname: fullnameField.val()}
+            $.ajax({
+              type: "post",
+              url: "/register",
+              data: JSON.stringify(data)
+            }).done(function() {
+              setVisibility(registerAjaxIndicator, false)
+              resultSpan.text("Thanks!")
+            })
+          })
+
+          updateButtonState()
+
+          function showUsernameAjaxIndicator(show) {
+            checkingAvailability = show
+            setVisibility(usernameAjaxIndicator, show)
+          }
+
+          function updateButtonState() {
+            setEnabled(registerButton, usernameAvailable 
+                                        && nonEmpty(usernameField.val()) 
+                                        && nonEmpty(fullnameField.val())
+                                        && !checkingAvailability
+                                        && !clicked)
+          }
       })
     </script>
   </head>
