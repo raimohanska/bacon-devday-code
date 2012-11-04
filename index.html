@@ -23,15 +23,19 @@
           resultSpan = $("#result")
   
           var usernameAvailable, checkingAvailability, clicked
+          var counter = 0
           
           usernameField.keyup(function(event) {
             showUsernameAjaxIndicator(true)
             updateButtonState()
+            var id = ++counter
             $.ajax({ url : "/usernameavailable/" + usernameField.val()}).done(function(available) {
-              usernameAvailable = available
-              setVisibility(unavailabilityLabel, !available)
-              showUsernameAjaxIndicator(false)
-              updateButtonState()
+              if (id == counter) {
+                usernameAvailable = available
+                setVisibility(unavailabilityLabel, !available)
+                showUsernameAjaxIndicator(false)
+                updateButtonState()
+              }
             })
           })
 
