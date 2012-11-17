@@ -23,6 +23,18 @@
           unavailabilityLabel = $("#username-unavailable")
           usernameAjaxIndicator = $("#username .ajax")
           registerAjaxIndicator = $("#register .ajax")
+
+          // Inputs
+          username = Bacon.UI.textFieldValue($("#username input"))
+          fullname = Bacon.UI.textFieldValue($("#fullname input"))
+
+          // Streams / Properties
+          usernameEntered = username.map(nonEmpty)
+          fullnameEntered = fullname.map(nonEmpty)
+          buttonEnabled = usernameEntered.and(fullnameEntered)
+
+          // Side-effects
+          buttonEnabled.assign(setEnabled, registerButton)
       })
     </script>
   </head>
