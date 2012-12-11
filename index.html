@@ -31,10 +31,14 @@
           // Streams / Properties
           usernameEntered = username.map(nonEmpty)
           fullnameEntered = fullname.map(nonEmpty)
-          buttonEnabled = usernameEntered.and(fullnameEntered)
+          availabilityRequest = username.changes().map(function(user) { return { url: "/usernameavailable/" + user }})
+          availabilityResponse = availabilityRequest.ajax()
+          usernameAvailable = availabilityResponse.toProperty(true)
+          buttonEnabled = usernameEntered.and(fullnameEntered).and(usernameAvailable)
 
           // Side-effects
           buttonEnabled.assign(setEnabled, registerButton)
+          usernameAvailable.not().assign(setVisibility, unavailabilityLabel)
       })
     </script>
   </head>
